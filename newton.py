@@ -19,5 +19,5 @@ def new_optimize(start, func, tol = 1e-5):
     while abs(x_new-x)< tol:
         x=x_new
         x_new = start - (first_derv(func,start)/sec_derv(func,start))
-    return {"x:": x_new}
+    return {"x": x_new}
     
