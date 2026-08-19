@@ -1,27 +1,23 @@
 import numpy as np
 
 
-def first_derv(f, x, h=1e-5):
+def first_derv(func, x, h=1e-5):
     """Applying First Derivative"""
-    return (f(x + h) - f(x - h)) / (2 * h)
+    return (func(x + h) - func(x - h)) / (2 * h)
 
 
-def sec_derv(f, x, h=1e-5):
-    """Applying Second Derivative"""
-    return (f(x + h) - 2 * f(x) + f(x - h)) / h**2
+def sec_derv(func, x, h=1e-5):
+    """ Applying Second Derivative"""
+    return (func(x + h) - 2 * func(x) + func(x - h)) / h**2
 
 
-def optimize(start, f):
+def new_optimize(start, func, tol = 1e-5):
     """Implementation of Newton's Method Formula"""
-    x = start
-    for i in range(1000):
-        f1 = first_derv(f, x)
-        f2 = sec_derv(f, x)
-        x_new = x - (f1 / f2)
-        if abs(x_new - x) < 1e-6:
-            break
-        x = x_new
-    return x
+    x_new = start - (first_derv(func,start)/sec_derv(func,start))
+    x= start 
 
-
-help(optimize)
+    while abs(x_new-x)< tol:
+        x=x_new
+        x_new = start - (first_derv(func,start)/sec_derv(func,start))
+    return {"x:": x_new}
+    
