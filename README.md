@@ -1,2 +1,2 @@
-# netwon-practice
-netwon method compute skill workshop
+# Newton-Practice
+## MASDS Compute Skill Workshop
