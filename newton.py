@@ -2,8 +2,10 @@ import numpy as np
 
 def first_derv(f,x,h=1e-5):
     return (f(x+h)-f(x-h))/(2*h)
+    
 def sec_derv(f,x,h=1e-5):
     return (f(x+h)-2*f(x)+f(x-h))/h**2
+    
 def optimize(start,f):
     x = start
     for i in range(1000):
