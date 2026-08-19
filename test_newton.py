@@ -8,7 +8,7 @@ import newton
 ## key as the output. 
 
 def test_basic_function():
-    assert np.isclose(newton.new_optimize(2.95, np.cos)['x'], math.pi)
+    assert np.isclose(newton.new_optimize(2.95, np.cos)['x: '], math.pi)
 
 def test_bad_input():
     with pytest.raises(TypeError):   
@@ -16,6 +16,13 @@ def test_bad_input():
     ## Ideally, our function would raise the exception with a useful message.
     with pytest.raises(TypeError, match='`x0` must be numeric'):
         newton.new_optimize(np.cos, 2.95)
+
+def test_Denom():
+    with pytest.raise(ZeroDivisionError):
+        assert np.isclose(newton.sec_derv(2.95, np.cos), 0)
+
+
+
 
 ## How to check that a warning is (correctly) emitted:
 ## def test_warning():
