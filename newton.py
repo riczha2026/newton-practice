@@ -1,25 +1,46 @@
 import numpy as np
+from scipy.differentiate import jacobian
+#numpy.linalg.solve(H,g)
 
 
-def first_derv(func, x, h=1e-5):
-    """Applying First Derivative"""
-    return (func(x + h) - func(x - h)) / (2 * h)
+def f(x):
+    return np.array([
+        x[0]**2 + x[1]**2 - 4,
+        x[0] - x[1]
+    ])
+    
 
-
-def sec_derv(func, x, h=1e-5):
-    """ Applying Second Derivative"""
-    return (func(x + h) - 2 * func(x) + func(x - h)) / h**2
-
-
-def new_optimize(start, func, tol = 1e-6):
+def optimize(start, f, tol = 1e-6):
     """Implementation of Newton's Method Formula"""
-    if not callable(func):
-        raise TypeError(f"Argument is not a function, it is of type {type(func)}")
-    x_new = start - (first_derv(func,start)/sec_derv(func,start))
-    x= start 
+    x = np.asarray(x0,dtype=float)
 
-    while abs(x_new-x)< tol:
-        x=x_new
-        x_new = start - (first_derv(func,start)/sec_derv(func,start))
-    return {"x: ": x_new}
+    if x.ndim ==0:
+        for _ in range(1000):
+            fx = f(x)
+            if abs(fx)<tol:
+                return x.item()
+            dfx = derivatie(f,x).df
+
+            if dfx ==0:
+                raise ValueError("Derivative is zero.")
+
+            x = x - (fx/dfx)
+
+        raise RuntimeError("Newton's method did not converge.")
+
+    else:
+        for _ in range(10000):
+            fx=f(x)
+
+            if np.linalg.norm(fx)<tol:
+                return x
+            J=jacobian(f,x).df
+
+            try:
+                 delta = np.linalg.solve(J,fx)
+            except np.linalg.LinAlgError:
+                raise ValueError("Jacobian is singular.")
+            
+            x=x-delta
+        raise RuntimeError("Newton's method did not converge.")
     
